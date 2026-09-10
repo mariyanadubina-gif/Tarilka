@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tarilka — Головна</title>
+  <title>Tarilka — Перегляд рецепта</title>
   
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
@@ -24,17 +24,16 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto ms-4">
           <li class="nav-item">
-            <a class="nav-link fw-semibold" href="index.html">Головна сторінка</a>
+            <a class="nav-link" href="index.html">Головна сторінка</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="catalog.html">Страви</a>
+            <a class="nav-link fw-semibold" href="catalog.html">Страви</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Спільнота</a>
+            <a class="nav-link" href="#" id="communityNavBtn">Спільнота</a>
           </li>
         </ul>
 
-        <!-- Блок авторизації / профілю керується через logika.js -->
         <div class="d-flex align-items-center gap-2" id="navAuthContainer">
           <button class="btn btn-auth-login" type="button">Вхід</button>
           <button class="btn btn-auth-register" type="button">Реєстрація</button>
@@ -43,93 +42,11 @@
     </div>
   </nav>
 
-  <!-- Головний банер (Hero Section) -->
-  <section class="hero-section">
-    <div class="container">
-      <h1 class="hero-title">Готуйте разом із Tarilka</h1>
-      
-      <p class="hero-subtitle">
-        Зберігайте улюблені рецепти, залишайте відгуки та знаходьте кулінарних однодумців.
-      </p>
+  <div class="container my-5" id="recipeDetailContent">
+    <!-- Контент рецепта формується з recipe-detail.js -->
+  </div>
 
-      <!-- Форма пошуку -->
-      <form class="search-container" action="catalog.html" method="GET">
-        <div class="search-input-group">
-          <input type="search" name="q" placeholder="Шукати за назвою" aria-label="Пошук">
-          <button class="search-btn" type="submit">
-            <i class="bi bi-search text-dark"></i>
-          </button>
-        </div>
-      </form>
-
-      <!-- Кнопки дій -->
-      <div class="action-btns">
-        <a href="#" class="btn btn-add-recipe">Додати рецепт</a>
-        <a href="catalog.html" class="btn btn-view-dishes">Переглянути страви</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Секція останніх рецептів -->
-  <section class="latest-recipes py-5">
-    <div class="container">
-      <div class="text-center mb-5">
-        <h2 class="section-title fw-bold">Приклади рецептів від нашої спільноти</h2>
-        <p class="text-muted fs-5">
-          Приєднуйтесь до Tarilka, щоб створювати власний профіль, викладати авторські рецепти та знаходити підписників!
-        </p>
-      </div>
-      
-      <div class="row g-4" id="indexRecipesRow">
-        <!-- Рецепти завантажуються динамічно з catalog.js / db.js -->
-      </div>
-    </div>
-  </section>
-
-  <!-- Підвал сайту (Footer) -->
-  <footer class="site-footer pt-5 pb-4">
-    <div class="container">
-      <div class="row gy-4">
-        <div class="col-lg-5 col-md-6">
-          <h2 class="footer-title fw-semibold mb-3">Tarilka</h2>
-          <p class="footer-desc mb-4">
-            Спільнота для тих, хто любить готувати та ділитися смачними ідеями.
-          </p>
-          <p class="footer-email mb-0">
-            Email: <a href="mailto:tarilkaua@gmail.com" class="footer-email-link">tarilkaua@gmail.com</a>
-          </p>
-        </div>
-
-        <div class="col-lg-3 col-md-3 col-6">
-          <h5 class="fw-semibold mb-3">Навігація</h5>
-          <ul class="list-unstyled footer-links d-flex flex-column gap-2">
-            <li><a href="index.html">Головна</a></li>
-            <li><a href="catalog.html">Рецепти</a></li>
-            <li><a href="#">Спільнота</a></li>
-          </ul>
-        </div>
-
-        <div class="col-lg-4 col-md-3 col-6">
-          <h5 class="fw-semibold mb-3">Інформація</h5>
-          <ul class="list-unstyled footer-links d-flex flex-column gap-2">
-            <li><a href="#">Допомога</a></li>
-            <li><a href="#">Підтримка Tarilka</a></li>
-            <li><a href="#">Правила</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="text-center mt-5 pt-3">
-        <p class="mb-0 text-dark">© 2026 Tarilka. Усі права захищені.</p>
-      </div>
-    </div>
-  </footer>
-
-  <script src="db.js"></script>
-  <script src="logika.js"></script>
-  <script src="catalog.js"></script>
-
-  <!-- Модальне вікно Авторизації -->
+  <!-- Модальні вікна -->
   <div id="authModal" class="modal-overlay">
     <div class="container auth-container">
       <button id="closeModal" class="close-btn">&times;</button>
@@ -144,13 +61,12 @@
         <div id="confirmPasswordGroup" style="display: none;">
           <input class="input" type="password" id="confirmPassword" placeholder="Підтвердження пароля">
         </div>
-        <span class="forgot-password" id="forgotPasswordSpan"><a href="#">Забули пароль?</a></span>
+        <span class="forgot-password" id="forgotPasswordSpan"><a href="#" id="forgotPasswordLink">Забули пароль?</a></span>
         <input class="login-button" type="submit" id="submitBtn" value="Увійти">
       </form>
     </div>
   </div>
 
-  <!-- Модальне вікно Створення Рецепта (із Фото ТА/АБО Відео) -->
   <div id="recipeModal" class="modal-overlay">
     <div class="container recipe-modal-container">
       <button id="closeRecipeModal" class="close-btn">&times;</button>
@@ -182,17 +98,15 @@
           <textarea required class="input mt-0" id="recipeSteps" rows="4" placeholder="1. Зваріть бульйон...&#10;2. Наріжте овочі..."></textarea>
         </div>
 
-        <!-- Вибір Фото (Необов'язково) -->
         <div class="mb-2 text-start">
           <label class="form-label small fw-bold text-dark mb-1">Фото страви (опціонально):</label>
           <input class="form-control rounded-3" type="file" id="recipePhoto" accept="image/*">
         </div>
 
-        <!-- Вибір Відео або посилання (Необов'язково) -->
         <div class="mb-3 text-start">
           <label class="form-label small fw-bold text-dark mb-1">Відеорецепт (опціонально):</label>
           <input class="form-control rounded-3 mb-2" type="file" id="recipeVideo" accept="video/*">
-          <input class="input mt-0" type="url" id="recipeVideoUrl" placeholder="Або вставте посилання на відео (YouTube/Vimeo)">
+          <input class="input mt-0" type="url" id="recipeVideoUrl" placeholder="Або вставте посилання на відео">
         </div>
 
         <input class="login-button mt-3" type="submit" value="Опублікувати рецепт">
@@ -200,6 +114,9 @@
     </div>
   </div>
 
+  <script src="db.js"></script>
+  <script src="logika.js"></script>
+  <script src="recipe-detail.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

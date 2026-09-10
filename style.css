@@ -67,8 +67,8 @@ body {
 /* Секція Hero (Банер із фоном) */
 .hero-section {
   position: relative;
-  background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), 
-              url('Food.png') center/cover no-repeat;
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+            url('Food.png') center/cover no-repeat;
   min-height: 580px;
   color: #ffffff;
   padding: 60px 40px 60px 80px;
@@ -80,20 +80,22 @@ body {
 .hero-title {
   font-size: 2.8rem;
   font-weight: 400;
-  margin-bottom: 25px;
+  margin-bottom: 50px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
 .hero-subtitle {
   font-size: 1.15rem;
   max-width: 440px;
-  margin-bottom: 35px;
+  margin-bottom: 40px;
   line-height: 1.4;
   font-weight: 300;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
 /* Пошуковий рядок */
 .search-container {
-  max-width: 310px;
+  max-width: 390px;
   margin-bottom: 55px;
 }
 
@@ -129,7 +131,7 @@ body {
 /* Кнопки дій */
 .action-btns {
   display: flex;
-  gap: 20px;
+  gap: 100px;
   align-items: center;
   flex-wrap: wrap;
 }
@@ -151,7 +153,8 @@ body {
 }
 
 .btn-view-dishes {
-  background-color: rgba(255, 255, 255, 0.75);
+  background-color: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   color: var(--text-dark);
   border-radius: 18px;
   padding: 8px 22px;
@@ -318,6 +321,291 @@ button, input, .nav-link, .card-button {
 
 .footer-links a:hover {
   opacity: 0.7;
+}
+
+.style-placeholder-card {
+  border: 2px dashed #b9e67c !important;
+  background-color: rgba(255, 255, 255, 0.6) !important;
+  min-height: 100%;
+}
+
+/* Перекриття модального вікна (Overlay) */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Відображення модального вікна */
+.modal-overlay.active {
+  display: flex;
+}
+
+/* Контейнер модального вікна */
+.auth-container {
+  position: relative;
+  max-width: 360px;
+  width: 100%;
+  background: linear-gradient(0deg, #ffffff 0%, #f4fbf1 100%);
+  border-radius: 30px;
+  padding: 30px 30px;
+  border: 4px solid #ffffff;
+  box-shadow: rgba(133, 189, 215, 0.3) 0px 20px 30px;
+}
+
+/* Кнопка закриття */
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #555;
+  cursor: pointer;
+}
+
+/* Заголовок та елементи у зелених тонах */
+.auth-container .heading {
+  text-align: center;
+  font-weight: 800;
+  font-size: 28px;
+  color: #2e7d32;
+}
+
+.auth-container .form .input {
+  width: 100%;
+  background: white;
+  border: 1px solid #e0e0e0;
+  padding: 12px 18px;
+  border-radius: 16px;
+  margin-top: 12px;
+  box-shadow: #e8f5e9 0px 8px 10px -5px;
+}
+
+.auth-container .form .input:focus {
+  outline: none;
+  border-color: #81c784;
+}
+
+.auth-container .form .forgot-password {
+  display: block;
+  margin-top: 10px;
+  margin-left: 5px;
+}
+
+.auth-container .form .forgot-password a {
+  font-size: 11px;
+  color: #2e7d32;
+  text-decoration: none;
+}
+
+.auth-container .form .login-button {
+  display: block;
+  width: 100%;
+  font-weight: bold;
+  background: linear-gradient(45deg, #a8d66b 0%, #81c784 100%);
+  color: #1f2937;
+  padding: 12px;
+  margin: 20px auto 10px;
+  border-radius: 16px;
+  box-shadow: rgba(129, 199, 132, 0.4) 0px 15px 10px -10px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.auth-container .form .login-button:hover {
+  transform: scale(1.02);
+  background: linear-gradient(45deg, #b9e67c 0%, #a8d66b 100%);
+}
+
+.auth-container .social-account-container {
+  margin-top: 15px;
+}
+
+.auth-container .social-account-container .title {
+  display: block;
+  text-align: center;
+  font-size: 11px;
+  color: #888;
+}
+
+.auth-container .social-accounts {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.auth-container .social-button {
+  background: linear-gradient(45deg, #2e7d32 0%, #4caf50 100%);
+  border: 3px solid white;
+  padding: 5px;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.auth-container .social-button .svg {
+  fill: white;
+}
+
+.auth-container .social-button:hover {
+  transform: scale(1.1);
+}
+
+.auth-container .agreement {
+  display: block;
+  text-align: center;
+  margin-top: 12px;
+}
+
+.auth-container .agreement a {
+  text-decoration: none;
+  color: #2e7d32;
+  font-size: 10px;
+}
+
+/* Контейнер модального вікна створення рецепта */
+.recipe-modal-container {
+  position: relative;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: linear-gradient(0deg, #ffffff 0%, #f4fbf1 100%);
+  border-radius: 30px;
+  padding: 25px 30px;
+  border: 4px solid #ffffff;
+  box-shadow: rgba(133, 189, 215, 0.3) 0px 20px 30px;
+}
+
+/* Текстові області (textarea) */
+.recipe-modal-container textarea.input {
+  resize: vertical;
+  min-height: 80px;
+  border-radius: 14px;
+}
+
+/* Поле вибору файлу */
+.recipe-modal-container .form-control {
+  border: 1px solid #e0e0e0;
+  padding: 10px;
+  font-size: 0.9rem;
+}
+
+.recipe-modal-container .form-control:focus {
+  border-color: #81c784;
+  box-shadow: 0 0 0 0.25rem rgba(129, 199, 132, 0.25);
+}
+
+/* Модальне вікно каталогу */
+.catalog-modal-container {
+  position: relative;
+  max-width: 1000px;
+  width: 90%;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: #e3eedd;
+  border-radius: 24px;
+  padding: 30px;
+  border: 4px solid #ffffff;
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Кнопки категорій */
+.btn-category {
+  background-color: #ffffff;
+  color: var(--text-dark);
+  border: 1px solid #c3c6ce;
+  border-radius: 12px;
+  padding: 8px 18px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-category:hover,
+.btn-category.active {
+  background-color: var(--btn-green);
+  border-color: var(--btn-green);
+  color: var(--text-dark);
+}
+
+/* Фоновий колір для каталогу */
+.catalog-page {
+  background-color: #B0DB9C;
+}
+
+.catalog-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+/* Кнопки категорій */
+.btn-category {
+  background-color: #ffffff;
+  color: var(--text-dark);
+  border: none;
+  border-radius: 12px;
+  padding: 10px 24px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: all 0.2s ease;
+}
+
+.btn-category:hover,
+.btn-category.active {
+  background-color: #ffffff;
+  color: #000000;
+  border: 2px solid #2e7d32;
+  transform: translateY(-2px);
+}
+
+/* Панель фільтрів */
+.filter-panel {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.filter-panel .form-control,
+.filter-panel .form-select {
+  border-radius: 10px;
+  font-size: 0.95rem;
+  padding: 8px 12px;
+}
+
+.filter-panel .form-control:focus,
+.filter-panel .form-select:focus {
+  border-color: #81c784;
+  box-shadow: 0 0 0 0.2rem rgba(129, 199, 132, 0.25);
+}
+
+.recipe-detail-modal-container {
+  max-width: 850px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 20px;
+}
+
+.max-h-400 {
+  max-height: 380px;
+  object-fit: cover;
 }
 
 
