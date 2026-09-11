@@ -1,9 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
 
-* {
-  font-family: 'Lora', serif !important;
-}
-
 :root {
   --bg-header: #e3eedd;
   --btn-green: #b9e67c;
@@ -12,10 +8,15 @@
 }
 
 body {
-  font-family: serif, system-ui, -apple-system;
-  background-color: #e3eedd;
+  font-family: 'Lora', serif, system-ui, -apple-system;
+  background-color: #B0DB9C;
   margin: 0;
   padding: 0;
+}
+
+/* Загальні налаштування шрифтів, окрім спеціальних елементів */
+h1, h2, h3, h4, h5, h6, p, span, a, label {
+  font-family: 'Lora', serif !important;
 }
 
 /* Хедер (Панель навігації) */
@@ -46,10 +47,9 @@ body {
   color: var(--text-dark);
   padding: 6px 16px;
   border-radius: 6px;
-  transition: all 0.2s ease; /* Додає плавну анімацію для зміни кольорів */
+  transition: all 0.2s ease;
 }
 
-/* Ефект підсвічування зеленим при наведенні курсора */
 .btn-auth-login:hover {
   background-color: var(--btn-green);
   border-color: var(--btn-green);
@@ -114,6 +114,7 @@ body {
   width: 100%;
   color: #333;
   font-size: 0.95rem;
+  font-family: system-ui, -apple-system, sans-serif !important;
 }
 
 .search-btn {
@@ -137,7 +138,7 @@ body {
 }
 
 .btn-add-recipe {
-  background-color: var(--btn-green);
+  background-color: #abf7b1;
   color: var(--text-dark);
   border-radius: 18px;
   padding: 8px 22px;
@@ -148,13 +149,12 @@ body {
 }
 
 .btn-add-recipe:hover {
-  background-color: var(--btn-green-hover);
+  background-color: #66e171;
   color: var(--text-dark);
 }
 
 .btn-view-dishes {
   background-color: rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.3);
   color: var(--text-dark);
   border-radius: 18px;
   padding: 8px 22px;
@@ -169,120 +169,168 @@ body {
   color: var(--text-dark);
 }
 
-/* Змінюємо фон тільки для секції останніх рецептів */
+/* Секція останніх рецептів */
 .latest-recipes {
   background-color: #B0DB9C;
   padding-top: 3rem;
   padding-bottom: 80px;
 }
 
-/* Робимо заголовок «Останні рецепти» світлим, щоб його було видно */
 .section-title {
-  font-family: serif;
   color: #000000;
 }
 
-/* Картка рецепта */
+/* --- СТИЛІ КАРТОК РЕЦЕПТІВ ТА ІНТЕРАКТИВНОСТІ --- */
+
 .recipe-card {
-  width: 100%;
+  background: #ffffff;
   border-radius: 20px;
-  background: #f5f5f5;
-  position: relative;
-  padding: 1.5rem;
-  border: 2px solid #c3c6ce;
-  transition: all 0.3s ease-out;
-  overflow: visible;
-}
-
-.recipe-card-details {
-  color: var(--text-dark);
-  height: 100%;
-}
-
-.recipe-title {
-  font-size: 1.05rem;
-  line-height: 1.3;
-  min-height: 2.7em; /* Гарантує однакове місце під 2 рядки для всіх карток */
-  display: -webkit-box;
-  line-clamp: 2; /* Обрізає текст, якщо він довший за 2 рядки */
-  -webkit-box-orient: vertical;
   overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+}
+
+.recipe-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+}
+
+.recipe-img-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px 16px 0 0;
+  cursor: pointer;
 }
 
 .recipe-img {
-  height: 200px;
+  height: 210px;
   object-fit: cover;
+  transition: transform 0.5s ease;
+  width: 100%;
+}
+
+.recipe-card:hover .recipe-img {
+  transform: scale(1.03);
+}
+
+/* Красиві та охайні баджі часу, порцій та складності */
+.recipe-meta-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 12px 0;
+}
+
+.recipe-meta-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background-color: #f4f7f4;
+  color: #2e5a36;
+  border: 1px solid #e2ece3;
+  padding: 6px 12px;
   border-radius: 12px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  transition: all 0.2s;
 }
 
-.recipe-desc {
-  line-height: 1.4;
-  font-size: 0.85rem;
-}
-
-.btn-follow {
-  background-color: #cbeba5;
-  color: var(--text-dark);
-  font-size: 0.85rem;
-  border: none;
-  border-radius: 12px;
-  padding: 4px 12px;
-  font-weight: 600;
-  transition: background-color 0.2s;
-}
-
-.btn-follow:hover {
-  background-color: var(--btn-green);
-}
-
-.card-button {
-  text-decoration: none;
-  text-align: center;
-  transform: translate(-50%, 125%);
-  width: 70%;
-  border-radius: 1rem;
-  border: 1px solid #dcdcdc;
-  background-color: #ffffff; /* Чистий білий колір */
-  color: #1f2937;
-  font-weight: 600;
+.recipe-meta-badge i {
+  color: #3b7a42;
   font-size: 0.95rem;
-  padding: 0.5rem 1rem;
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  opacity: 0;
-  transition: 0.3s ease-out;
+}
+
+/* Робимо картку гнучкою контейнерною структурою */
+.recipe-card {
+  background: #ffffff;
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Верхній контент розширюється, а метадані фіксуються внизу */
+.recipe-content-area {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.recipe-meta-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: auto; /* Автоматично штовхає плашки вниз до рівної лінії */
+  margin-bottom: 12px;
+}
+
+/* Сучасна функціональна кнопка збереження */
+.btn-recipe-action {
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 0.88rem;
+  padding: 8px 14px;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
   cursor: pointer;
-  z-index: 10;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Тінь додасть контрасту */
 }
 
-/* При наведенні миші на кнопку */
-.card-button:hover {
-  background-color: #ECFAE5;
-  color: #1f2937;
+.btn-recipe-action.btn-save-default {
+  background-color: #f4f7f4;
+  color: #4a5568;
+  border-color: #e2ece3;
 }
 
-/* Ефекти при наведенні миші на картку */
-.recipe-card:hover {
-  border-color: var(--btn-green);
-  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
-  transform: translateY(-4px);
+.btn-recipe-action.btn-save-default:hover {
+  background-color: #e8f0e9;
+  color: #2e5a36;
 }
 
-.recipe-card:hover .card-button {
-  transform: translate(-50%, 50%);
-  opacity: 1;
+.btn-recipe-action.btn-save-active {
+  background-color: #e6f4ea;
+  color: #137333;
+  border-color: #ceead6;
+  font-weight: 600;
 }
 
-/* Налаштування шрифту для кнопок та елементів вводу */
-button, input, .nav-link, .card-button {
+.btn-recipe-action.btn-like-active {
+  background-color: #fce8e6;
+  color: #c5221f;
+  border-color: #fad2cf;
+}
+
+.btn-recipe-action.btn-like-default {
+  background-color: #f8f9fa;
+  color: #5f6368;
+  border-color: #e8eaed;
+}
+
+.btn-recipe-action.btn-like-default:hover {
+  background-color: #f1f3f4;
+  color: #202124;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* Налаштування шрифту для кнопок та полів вводу */
+button, input, select, textarea {
   font-family: system-ui, -apple-system, sans-serif !important;
 }
 
-/* Стилі для підвалу (Footer) */
+/* Підвал (Footer) */
 .site-footer {
-  background-color: #e9f5e1; /* Світло-зелений фон, як на макеті */
+  background-color: #e9f5e1;
   color: var(--text-dark);
 }
 
@@ -297,10 +345,6 @@ button, input, .nav-link, .card-button {
   line-height: 1.4;
 }
 
-.footer-email {
-  font-size: 1.05rem;
-}
-/* Стилі для email у підвалі */
 .footer-email-link {
   color: var(--text-dark);
   text-decoration: none;
@@ -308,8 +352,8 @@ button, input, .nav-link, .card-button {
 }
 
 .footer-email-link:hover {
-  color: #0d6efd; /* Синій колір при наведенні */
-  text-decoration: underline; /* За бажанням можна залишити або прибрати підкреслення */
+  color: #0d6efd;
+  text-decoration: underline;
 }
 
 .footer-links a {
@@ -323,13 +367,7 @@ button, input, .nav-link, .card-button {
   opacity: 0.7;
 }
 
-.style-placeholder-card {
-  border: 2px dashed #b9e67c !important;
-  background-color: rgba(255, 255, 255, 0.6) !important;
-  min-height: 100%;
-}
-
-/* Перекриття модального вікна (Overlay) */
+/* Модальні вікна */
 .modal-overlay {
   display: none;
   position: fixed;
@@ -339,17 +377,15 @@ button, input, .nav-link, .card-button {
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
-  z-index: 1000;
+  z-index: 1050;
   justify-content: center;
   align-items: center;
 }
 
-/* Відображення модального вікна */
 .modal-overlay.active {
   display: flex;
 }
 
-/* Контейнер модального вікна */
 .auth-container {
   position: relative;
   max-width: 360px;
@@ -361,7 +397,6 @@ button, input, .nav-link, .card-button {
   box-shadow: rgba(133, 189, 215, 0.3) 0px 20px 30px;
 }
 
-/* Кнопка закриття */
 .close-btn {
   position: absolute;
   top: 15px;
@@ -373,7 +408,6 @@ button, input, .nav-link, .card-button {
   cursor: pointer;
 }
 
-/* Заголовок та елементи у зелених тонах */
 .auth-container .heading {
   text-align: center;
   font-weight: 800;
@@ -381,7 +415,8 @@ button, input, .nav-link, .card-button {
   color: #2e7d32;
 }
 
-.auth-container .form .input {
+.auth-container .form .input,
+.recipe-modal-container .input {
   width: 100%;
   background: white;
   border: 1px solid #e0e0e0;
@@ -391,24 +426,14 @@ button, input, .nav-link, .card-button {
   box-shadow: #e8f5e9 0px 8px 10px -5px;
 }
 
-.auth-container .form .input:focus {
+.auth-container .form .input:focus,
+.recipe-modal-container .input:focus {
   outline: none;
   border-color: #81c784;
 }
 
-.auth-container .form .forgot-password {
-  display: block;
-  margin-top: 10px;
-  margin-left: 5px;
-}
-
-.auth-container .form .forgot-password a {
-  font-size: 11px;
-  color: #2e7d32;
-  text-decoration: none;
-}
-
-.auth-container .form .login-button {
+.auth-container .form .login-button,
+.login-button {
   display: block;
   width: 100%;
   font-weight: bold;
@@ -423,64 +448,13 @@ button, input, .nav-link, .card-button {
   transition: all 0.2s ease-in-out;
 }
 
-.auth-container .form .login-button:hover {
+.auth-container .form .login-button:hover,
+.login-button:hover {
   transform: scale(1.02);
   background: linear-gradient(45deg, #b9e67c 0%, #a8d66b 100%);
 }
 
-.auth-container .social-account-container {
-  margin-top: 15px;
-}
-
-.auth-container .social-account-container .title {
-  display: block;
-  text-align: center;
-  font-size: 11px;
-  color: #888;
-}
-
-.auth-container .social-accounts {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 8px;
-}
-
-.auth-container .social-button {
-  background: linear-gradient(45deg, #2e7d32 0%, #4caf50 100%);
-  border: 3px solid white;
-  padding: 5px;
-  border-radius: 50%;
-  width: 38px;
-  height: 38px;
-  display: grid;
-  place-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-}
-
-.auth-container .social-button .svg {
-  fill: white;
-}
-
-.auth-container .social-button:hover {
-  transform: scale(1.1);
-}
-
-.auth-container .agreement {
-  display: block;
-  text-align: center;
-  margin-top: 12px;
-}
-
-.auth-container .agreement a {
-  text-decoration: none;
-  color: #2e7d32;
-  font-size: 10px;
-}
-
-/* Контейнер модального вікна створення рецепта */
+/* Контейнер модального вікна створення/редагування рецепта */
 .recipe-modal-container {
   position: relative;
   max-width: 500px;
@@ -494,58 +468,13 @@ button, input, .nav-link, .card-button {
   box-shadow: rgba(133, 189, 215, 0.3) 0px 20px 30px;
 }
 
-/* Текстові області (textarea) */
 .recipe-modal-container textarea.input {
   resize: vertical;
   min-height: 80px;
   border-radius: 14px;
 }
 
-/* Поле вибору файлу */
-.recipe-modal-container .form-control {
-  border: 1px solid #e0e0e0;
-  padding: 10px;
-  font-size: 0.9rem;
-}
-
-.recipe-modal-container .form-control:focus {
-  border-color: #81c784;
-  box-shadow: 0 0 0 0.25rem rgba(129, 199, 132, 0.25);
-}
-
-/* Модальне вікно каталогу */
-.catalog-modal-container {
-  position: relative;
-  max-width: 1000px;
-  width: 90%;
-  max-height: 85vh;
-  overflow-y: auto;
-  background: #e3eedd;
-  border-radius: 24px;
-  padding: 30px;
-  border: 4px solid #ffffff;
-  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15);
-}
-
-/* Кнопки категорій */
-.btn-category {
-  background-color: #ffffff;
-  color: var(--text-dark);
-  border: 1px solid #c3c6ce;
-  border-radius: 12px;
-  padding: 8px 18px;
-  font-weight: 500;
-  transition: all 0.2s ease;
-}
-
-.btn-category:hover,
-.btn-category.active {
-  background-color: var(--btn-green);
-  border-color: var(--btn-green);
-  color: var(--text-dark);
-}
-
-/* Фоновий колір для каталогу */
+/* Каталог та фільтри */
 .catalog-page {
   background-color: #B0DB9C;
 }
@@ -556,17 +485,18 @@ button, input, .nav-link, .card-button {
   color: #1f2937;
 }
 
-/* Кнопки категорій */
 .btn-category {
   background-color: #ffffff;
   color: var(--text-dark);
-  border: none;
+  border: 2px solid transparent; 
   border-radius: 12px;
-  padding: 10px 24px;
-  font-size: 1.1rem;
+  padding: 8px 18px;
+  font-size: 1rem;
   font-weight: 500;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .btn-category:hover,
@@ -574,10 +504,10 @@ button, input, .nav-link, .card-button {
   background-color: #ffffff;
   color: #000000;
   border: 2px solid #2e7d32;
-  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  transform: none;
 }
 
-/* Панель фільтрів */
 .filter-panel {
   border: 1px solid rgba(0, 0, 0, 0.08);
 }
@@ -589,12 +519,6 @@ button, input, .nav-link, .card-button {
   padding: 8px 12px;
 }
 
-.filter-panel .form-control:focus,
-.filter-panel .form-select:focus {
-  border-color: #81c784;
-  box-shadow: 0 0 0 0.2rem rgba(129, 199, 132, 0.25);
-}
-
 .recipe-detail-modal-container {
   max-width: 850px;
   width: 90%;
@@ -603,10 +527,134 @@ button, input, .nav-link, .card-button {
   border-radius: 20px;
 }
 
-.max-h-400 {
-  max-height: 380px;
-  object-fit: cover;
+/* Блок навігації та профіль */
+.nav-icon-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease-in-out;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background-color: #f8f9fa;
+  color: #495057;
+  text-decoration: none;
 }
+
+.nav-icon-btn:hover {
+  background-color: #e9ecef;
+  color: #198754;
+  border-color: rgba(25, 135, 84, 0.2);
+  transform: translateY(-1px);
+}
+
+.nav-logout-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 50rem;
+  transition: all 0.2s ease-in-out;
+}
+
+#profileTabs .nav-link {
+  color: var(--text-dark) !important;
+  background-color: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  font-weight: 500;
+  transition: all 0.25s ease-in-out;
+}
+
+#profileTabs .nav-link.active {
+  background-color: #219e28 !important;
+  color: #ffffff !important;
+  border-color: #29712d !important;
+  box-shadow: 0 4px 10px rgba(46, 125, 50, 0.25);
+}
+
+.profile-recipe-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+.profile-recipe-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1) !important;
+  border-color: #81c784 !important;
+}
+
+.recipe-flexible-img {
+  width: 100%;
+  height: auto;
+  max-height: 550px;
+  object-fit: contain;
+  border-radius: 1rem;
+}
+
+/* Корекція для полів керування кількістю порцій та стрілочок */
+.input-group input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.input-group input[type="number"]::-webkit-inner-spin-button,
+.input-group input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Базовий стиль для кнопки підписки */
+.btn-follow {
+  background-color: #e6f4ea;
+  color: #137333;
+  border: 1px solid #ceead6;
+  font-weight: 600;
+  border-radius: 50rem;
+  padding: 5px 14px;
+  font-size: 0.85rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-follow:hover {
+  background-color: #ceead6;
+  color: #0d5325;
+  transform: translateY(-1px);
+}
+
+/* Стиль для кнопки, коли користувач ВЖЕ підписаний */
+.btn-following {
+  background-color: #f8f9fa;
+  color: #5f6368;
+  border: 1px solid #dadce0;
+  font-weight: 500;
+  border-radius: 50rem;
+  padding: 5px 14px;
+  font-size: 0.85rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-following:hover {
+  background-color: #fce8e6;
+  color: #c5221f;
+  border-color: #fad2cf;
+}
+
+/* Зміна тексту при наведенні на "Підписані" (наприклад, щоб показувати "Відписатися") */
+.btn-following:hover span {
+  display: none;
+}
+.btn-following:hover::after {
+  content: "Відписатися";
+}
+
+
+
+
+
+
 
 
 

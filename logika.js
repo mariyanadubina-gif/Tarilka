@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Елементи модальних вікон
   const authModal = document.getElementById('authModal');
   const closeAuthModalBtn = document.getElementById('closeModal');
   const modalTitle = document.getElementById('modalTitle');
@@ -23,9 +22,25 @@ document.addEventListener('DOMContentLoaded', () => {
   const navAuthContainer = document.getElementById('navAuthContainer');
   const communityNavBtn = document.getElementById('communityNavBtn');
 
+  // Логіка кнопок плюс/мінус для кількості порцій у модальному вікні створення
+  const modalServingsInput = document.getElementById('modalServingsCount');
+  const modalDecBtn = document.getElementById('modalDecreaseServings');
+  const modalIncBtn = document.getElementById('modalIncreaseServings');
+
+  if (modalDecBtn && modalIncBtn && modalServingsInput) {
+    if (!modalServingsInput.value) modalServingsInput.value = "1";
+    modalDecBtn.addEventListener('click', () => {
+      let val = parseInt(modalServingsInput.value) || 1;
+      if (val > 1) modalServingsInput.value = val - 1;
+    });
+    modalIncBtn.addEventListener('click', () => {
+      let val = parseInt(modalServingsInput.value) || 1;
+      if (val < 100) modalServingsInput.value = val + 1;
+    });
+  }
+
   let isRegisterMode = false;
 
-  // Оновлення блоку авторизації в хедері
   function updateNavAuthUI() {
     const user = getCurrentUser();
     if (!navAuthContainer) return;
@@ -34,10 +49,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const unreadCount = (user.notifications || []).filter(n => !n.read).length;
       
       navAuthContainer.innerHTML = `
-        <div class="dropdown d-inline-block me-2">
-          <button class="btn btn-outline-secondary position-relative rounded-circle p-2" type="button" id="notifDropdown" data-bs-toggle="dropdown">
-            <i class="bi bi-bell"></i>
-            ${unreadCount > 0 ? `<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">${unreadCount}</span>` : ''}
+        <div class="dropdown d-inline-block me-1">
+          <button class="nav-icon-btn position-relative" type="button" id="notifDropdown" data-bs-toggle="dropdown" title="Сповіщення">
+            <i class="bi bi-bell fs-6"></i>
+            ${unreadCount > 0 ? `<span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"><span class="visually-hidden">Нові сповіщення</span></span>` : ''}
           </button>
           <ul class="dropdown-menu dropdown-menu-end p-2 shadow" style="width: 280px; max-height: 300px; overflow-y: auto;">
             <li><h6 class="dropdown-header">Сповіщення</h6></li>
@@ -52,8 +67,15 @@ document.addEventListener('DOMContentLoaded', () => {
               : '<li class="text-muted small p-2">Сповіщень немає</li>'}
           </ul>
         </div>
-        <span class="fw-bold me-2"><i class="bi bi-person-circle"></i> ${user.username}</span>
-        <button class="btn btn-sm btn-outline-danger rounded-pill" id="logoutBtn">Вийти</button>
+        
+        <a href="profile.html" class="d-flex align-items-center text-decoration-none ms-1 me-1">
+          <img src="${user.avatar || 'profile.png'}" class="rounded-circle object-fit-cover border border-2 border-success shadow-sm" width="38" height="38" alt="${user.username}">
+        </a>
+
+        <button class="btn btn-outline-danger nav-logout-btn shadow-sm" id="logoutBtn" title="Вийти з аккаунта">
+          <i class="bi bi-box-arrow-right"></i>
+          <span class="d-none d-md-inline">Вийти</span>
+        </button>
       `;
 
       document.getElementById('logoutBtn')?.addEventListener('click', () => {
@@ -107,14 +129,16 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const openRecipeModal = () => {
-    if (recipeModal) recipeModal.classList.add('active');
+    if (recipeModal) {
+      if (modalServingsInput && !modalServingsInput.value) modalServingsInput.value = "1";
+      recipeModal.classList.add('active');
+    }
   };
 
   const closeRecipeModal = () => {
     if (recipeModal) recipeModal.classList.remove('active');
   };
 
-  // Події кнопок створення рецепта
   addRecipeBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -128,7 +152,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Кнопка "Спільнота"
   if (communityNavBtn) {
     communityNavBtn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -136,7 +159,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Кнопка "Забули пароль?"
   if (forgotPasswordLink) {
     forgotPasswordLink.addEventListener('click', (e) => {
       e.preventDefault();
@@ -147,7 +169,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Форма Авторизації
   if (authForm) {
     authForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -201,7 +222,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Форма додавання рецепта
   if (recipeForm) {
     recipeForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -212,46 +232,66 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      const title = document.getElementById('recipeTitle').value;
+      const title = document.getElementById('recipeTitle').value.trim();
       const category = document.getElementById('recipeCategory')?.value || 'lunch';
+      const descInput = document.getElementById('recipeDesc');
+      const desc = descInput ? descInput.value.trim() : '';
       const ingredients = document.getElementById('recipeIngredients').value;
       const steps = document.getElementById('recipeSteps').value;
+      const time = document.getElementById('recipeTime') ? document.getElementById('recipeTime').value : '30 хв';
+      const difficulty = document.getElementById('recipeDifficulty') ? document.getElementById('recipeDifficulty').value : 'Легко';
+      
+      const servingsNum = modalServingsInput ? (modalServingsInput.value || '1') : '1';
+      const servings = `${servingsNum} порцій`;
+
       const photoInput = document.getElementById('recipePhoto');
       const videoInput = document.getElementById('recipeVideo');
       const videoUrlInput = document.getElementById('recipeVideoUrl');
 
-      const photoFile = photoInput.files[0];
+      const photoFile = photoInput ? photoInput.files[0] : null;
       const videoFile = videoInput ? videoInput.files[0] : null;
       const videoUrl = videoUrlInput ? videoUrlInput.value.trim() : '';
 
+      if (!photoFile) {
+        alert('Будь ласка, додайте фото страви!');
+        return;
+      }
+
+      const timeMatch = time.match(/\d+/);
+      const timeMinutes = timeMatch ? parseInt(timeMatch[0]) : 30;
+
       const handleSave = (photoData, videoData) => {
         const newDish = {
+          id: Date.now(),
           title: title,
           category: category,
-          desc: steps.slice(0, 100) + '...',
+          desc: desc,
           ingredients: ingredients.split('\n').filter(i => i.trim() !== ''),
           steps: steps.split('\n').filter(s => s.trim() !== ''),
-          image: photoData || '',
+          image: photoData,
           video: videoData || videoUrl || '',
-          time: '30 хв',
-          timeMinutes: 30,
-          servings: '2 порції',
-          difficulty: 'Легко',
+          time: time,
+          timeMinutes: timeMinutes,
+          servings: servings,
+          difficulty: difficulty,
           author: user.username,
-          avatar: user.avatar || 'profile.png'
+          avatar: user.avatar || 'profile.png',
+          commentsList: []
         };
 
         addDish(newDish);
         recipeForm.reset();
+        if (modalServingsInput) modalServingsInput.value = '1';
         closeRecipeModal();
         alert('Рецепт успішно створено!');
         window.location.href = 'catalog.html';
       };
 
-      const readPhoto = new Promise((resolve) => {
+      const readPhoto = new Promise((resolve, reject) => {
         if (photoFile) {
           const reader = new FileReader();
           reader.onload = (ev) => resolve(ev.target.result);
+          reader.onerror = (error) => reject(error);
           reader.readAsDataURL(photoFile);
         } else {
           resolve('');
@@ -285,7 +325,6 @@ document.addEventListener('DOMContentLoaded', () => {
   updateNavAuthUI();
 });
 
-// Глобальні функції підписки, збереження, лайків
 window.toggleFollowAuthor = function(authorName) {
   const currentUser = getCurrentUser();
   if (!currentUser) {
@@ -372,3 +411,4 @@ window.toggleLikeRecipe = function(recipeId) {
   saveDishes(dishes);
   window.location.reload();
 };
+

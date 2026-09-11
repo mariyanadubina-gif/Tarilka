@@ -30,11 +30,10 @@
             <a class="nav-link" href="catalog.html">Страви</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Спільнота</a>
+            <a class="nav-link" href="#" id="communityNavBtn">Спільнота</a>
           </li>
         </ul>
 
-        <!-- Блок авторизації / профілю керується через logika.js -->
         <div class="d-flex align-items-center gap-2" id="navAuthContainer">
           <button class="btn btn-auth-login" type="button">Вхід</button>
           <button class="btn btn-auth-register" type="button">Реєстрація</button>
@@ -43,7 +42,6 @@
     </div>
   </nav>
 
-  <!-- Головний банер (Hero Section) -->
   <section class="hero-section">
     <div class="container">
       <h1 class="hero-title">Готуйте разом із Tarilka</h1>
@@ -52,7 +50,6 @@
         Зберігайте улюблені рецепти, залишайте відгуки та знаходьте кулінарних однодумців.
       </p>
 
-      <!-- Форма пошуку -->
       <form class="search-container" action="catalog.html" method="GET">
         <div class="search-input-group">
           <input type="search" name="q" placeholder="Шукати за назвою" aria-label="Пошук">
@@ -62,7 +59,6 @@
         </div>
       </form>
 
-      <!-- Кнопки дій -->
       <div class="action-btns">
         <a href="#" class="btn btn-add-recipe">Додати рецепт</a>
         <a href="catalog.html" class="btn btn-view-dishes">Переглянути страви</a>
@@ -70,7 +66,6 @@
     </div>
   </section>
 
-  <!-- Секція останніх рецептів -->
   <section class="latest-recipes py-5">
     <div class="container">
       <div class="text-center mb-5">
@@ -81,12 +76,10 @@
       </div>
       
       <div class="row g-4" id="indexRecipesRow">
-        <!-- Рецепти завантажуються динамічно з catalog.js / db.js -->
       </div>
     </div>
   </section>
 
-  <!-- Підвал сайту (Footer) -->
   <footer class="site-footer pt-5 pb-4">
     <div class="container">
       <div class="row gy-4">
@@ -129,7 +122,6 @@
   <script src="logika.js"></script>
   <script src="catalog.js"></script>
 
-  <!-- Модальне вікно Авторизації -->
   <div id="authModal" class="modal-overlay">
     <div class="container auth-container">
       <button id="closeModal" class="close-btn">&times;</button>
@@ -150,7 +142,6 @@
     </div>
   </div>
 
-  <!-- Модальне вікно Створення Рецепта (із Фото ТА/АБО Відео) -->
   <div id="recipeModal" class="modal-overlay">
     <div class="container recipe-modal-container">
       <button id="closeRecipeModal" class="close-btn">&times;</button>
@@ -173,6 +164,11 @@
         </div>
 
         <div class="mb-2 text-start">
+          <label class="form-label small fw-bold text-dark mb-1">Короткий опис страви:</label>
+          <textarea required class="input mt-0" id="recipeDesc" rows="2" placeholder="Розкажіть трохи про смак або особливості страви..."></textarea>
+        </div>
+
+        <div class="mb-2 text-start">
           <label class="form-label small fw-bold text-dark mb-1">Інгредієнти (кожен з нового рядка):</label>
           <textarea required class="input mt-0" id="recipeIngredients" rows="3" placeholder="М'ясо — 500г&#10;Картопля — 4 шт"></textarea>
         </div>
@@ -182,17 +178,45 @@
           <textarea required class="input mt-0" id="recipeSteps" rows="4" placeholder="1. Зваріть бульйон...&#10;2. Наріжте овочі..."></textarea>
         </div>
 
-        <!-- Вибір Фото (Необов'язково) -->
-        <div class="mb-2 text-start">
-          <label class="form-label small fw-bold text-dark mb-1">Фото страви (опціонально):</label>
-          <input class="form-control rounded-3" type="file" id="recipePhoto" accept="image/*">
+        <div class="row">
+          <div class="col-md-6 mb-2 text-start">
+            <label class="form-label small fw-bold text-dark mb-1">Час готування:</label>
+            <select id="recipeTime" class="form-select border rounded-3 py-2">
+              <option value="15 хв" selected>15 хв</option>
+              <option value="30 хв">30 хв</option>
+              <option value="45 хв">45 хв</option>
+              <option value="60 хв">60 хв</option>
+              <option value="90+ хв">90+ хв</option>
+            </select>
+          </div>
+          <div class="col-md-6 mb-2 text-start">
+            <label class="form-label small fw-bold text-dark mb-1">Складність:</label>
+            <select id="recipeDifficulty" class="form-select border rounded-3 py-2">
+              <option value="Легко" selected>Легко</option>
+              <option value="Середньо">Середньо</option>
+              <option value="Складно">Складно</option>
+            </select>
+          </div>
         </div>
 
-        <!-- Вибір Відео або посилання (Необов'язково) -->
+        <div class="mb-2 text-start">
+          <label class="form-label small fw-bold text-dark mb-1">Кількість порцій:</label>
+          <div class="input-group border rounded-3 bg-white align-items-center" style="height: 38px;">
+            <button class="btn btn-outline-secondary border-0 px-3" type="button" id="modalDecreaseServings">-</button>
+            <input type="number" id="modalServingsCount" class="form-control text-center border-0 bg-transparent fw-bold text-dark shadow-none p-0" value="1" min="1" max="50">
+            <button class="btn btn-outline-secondary border-0 px-3" type="button" id="modalIncreaseServings">+</button>
+          </div>
+        </div>
+
+        <div class="mb-2 text-start">
+          <label class="form-label small fw-bold text-dark mb-1">Фото страви:</label>
+          <input required class="form-control rounded-3" type="file" id="recipePhoto" accept="image/*">
+        </div>
+
         <div class="mb-3 text-start">
-          <label class="form-label small fw-bold text-dark mb-1">Відеорецепт (опціонально):</label>
+          <label class="form-label small fw-bold text-dark mb-1">Відеорецепт (необов'язково):</label>
           <input class="form-control rounded-3 mb-2" type="file" id="recipeVideo" accept="video/*">
-          <input class="input mt-0" type="url" id="recipeVideoUrl" placeholder="Або вставте посилання на відео (YouTube/Vimeo)">
+          <input class="input mt-0" type="url" id="recipeVideoUrl" placeholder="Або вставте посилання на відео">
         </div>
 
         <input class="login-button mt-3" type="submit" value="Опублікувати рецепт">

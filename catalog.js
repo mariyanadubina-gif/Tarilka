@@ -34,8 +34,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (dishes.length === 0) {
       catalogGrid.innerHTML = `
         <div class="col-12 text-center text-muted py-5">
-          <i class="bi bi-search fs-1 mb-2 d-block"></i>
-          <p class="fs-5 mb-0">За вашим запитом нічого не знайдено.</p>
+          <div class="bg-white p-5 rounded-4 shadow-sm d-inline-block border">
+            <i class="bi bi-search fs-1 mb-2 d-block text-secondary"></i>
+            <p class="fs-5 mb-0 text-dark fw-semibold">За вашим запитом нічого не знайдено.</p>
+            <p class="small text-muted mt-1">Спробуйте змінити фільтри або пошуковий запит</p>
+          </div>
         </div>`;
       return;
     }
@@ -49,61 +52,92 @@ document.addEventListener('DOMContentLoaded', () => {
       const isSubbed = subList.includes(dish.author);
       const isLiked = dish.likedBy && currentUser ? dish.likedBy.includes(currentUser.email) : false;
 
-      // Підготовка медіа (Фото або Відео)
       let mediaHtml = '';
       if (dish.image) {
-        mediaHtml = `<img src="${dish.image}" class="img-fluid rounded-3 my-2 w-100 recipe-img" alt="${dish.title}">`;
+        mediaHtml = `<img src="${dish.image}" class="recipe-img" alt="${dish.title}">`;
       } else if (dish.video) {
         mediaHtml = `
-          <div class="my-2 rounded-3 overflow-hidden bg-dark text-center py-4 text-white">
-            <i class="bi bi-play-circle fs-1"></i>
-            <p class="small mb-0">Відеорецепт</p>
+          <div class="recipe-img d-flex flex-column align-items-center justify-content-center bg-dark text-white py-4">
+            <i class="bi bi-play-circle fs-1 mb-1"></i>
+            <span class="small">Відеорецепт</span>
           </div>`;
       } else {
-        mediaHtml = `<img src="Food.png" class="img-fluid rounded-3 my-2 w-100 recipe-img" alt="${dish.title}">`;
+        mediaHtml = `<img src="Food.png" class="recipe-img" alt="${dish.title}">`;
       }
 
+      // Кількість коментарів
+      const commentsCount = dish.commentsList ? dish.commentsList.length : (dish.comments || 0);
+
       const cardHtml = `
-        <div class="col-md-4" data-id="${dish.id}">
-          <div class="recipe-card h-100">
-            <div class="recipe-card-details">
-              <div class="d-flex justify-content-between align-items-center mb-2">
+        <div class="col-md-6 col-lg-4 mb-4" data-id="${dish.id}">
+          <div class="recipe-card p-3">
+            
+            <!-- Верхня частина з контентом -->
+            <div class="recipe-content-area">
+              <!-- Шапка картки (Автор та підписка) -->
+              <div class="d-flex justify-content-between align-items-center mb-3">
                 <div class="d-flex align-items-center gap-2">
-                  <img src="${dish.avatar || 'profile.png'}" class="rounded-circle" width="36" height="36" alt="${dish.author}">
-                  <span class="fw-semibold text-dark">${dish.author}</span>
+                  <img src="${dish.avatar || 'profile.png'}" class="rounded-circle object-fit-cover shadow-sm border" width="38" height="38" alt="${dish.author}">
+                  <span class="fw-semibold text-dark text-truncate" style="max-width: 110px;">${dish.author}</span>
                 </div>
-                <button class="btn btn-sm ${isSubbed ? 'btn-secondary' : 'btn-follow'} px-3 rounded-pill" onclick="toggleFollowAuthor('${dish.author}')">
-                  ${isSubbed ? 'Підписані' : 'Підписатися'}
+                ${currentUser && currentUser.email !== dish.author ? `
+                  <button class="btn btn-sm ${isSubbed ? 'btn-following' : 'btn-follow'}" onclick="toggleFollowAuthor('${dish.author}')">
+                    <span>${isSubbed ? 'Підписані' : 'Підписатися'}</span>
+                  </button>` : ''}
+              </div>
+
+              <!-- Зображення з кліком на деталі -->
+              <div class="recipe-img-wrapper mb-3 shadow-sm" onclick="window.location.href='recipe-detail.html?id=${dish.id}'">
+                ${mediaHtml}
+              </div>
+
+              <!-- Назва страви -->
+              <h5 class="recipe-title fw-bold text-dark mb-2 cursor-pointer" onclick="window.location.href='recipe-detail.html?id=${dish.id}'">${dish.title}</h5>
+
+              <!-- Опис -->
+              <p class="recipe-desc text-muted small mb-3">${dish.desc || ''}</p>
+
+              <!-- Охайні та красиві плашки (тепер завжди на одному рівні) -->
+              <div class="recipe-meta-badges">
+                ${dish.time ? `
+                  <div class="recipe-meta-badge" title="Час готування">
+                    <i class="bi bi-clock"></i>
+                    <span>${dish.time}</span>
+                  </div>` : ''}
+                ${dish.servings ? `
+                  <div class="recipe-meta-badge" title="Порції">
+                    <i class="bi bi-people"></i>
+                    <span>${dish.servings}</span>
+                  </div>` : ''}
+                <div class="recipe-meta-badge" title="Складність">
+                  <i class="bi bi-fire"></i>
+                  <span>${dish.difficulty || 'Легко'}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Нижня панель з лайками та збереженням -->
+            <div>
+              <hr class="my-2 text-muted opacity-25">
+
+              <div class="d-flex justify-content-between align-items-center pt-2">
+                <button class="btn-recipe-action ${isLiked ? 'btn-like-active' : 'btn-like-default'}" onclick="toggleLikeRecipe(${dish.id})">
+                  <i class="bi ${isLiked ? 'bi-heart-fill' : 'bi-heart'}"></i>
+                  <span>${dish.likes || 0}</span>
+                </button>
+
+                <a href="recipe-detail.html?id=${dish.id}#commentsSection" class="btn-recipe-action btn-like-default text-decoration-none" title="Переглянути коментарі">
+                  <i class="bi bi-chat-dots"></i>
+                  <span>${commentsCount}</span>
+                </a>
+
+                <button class="btn-recipe-action ${isSaved ? 'btn-save-active' : 'btn-save-default'}" onclick="toggleSaveRecipe(${dish.id})">
+                  <i class="bi ${isSaved ? 'bi-bookmark-check-fill' : 'bi-bookmark'}"></i>
+                  <span>${isSaved ? 'Збережено' : 'Зберегти'}</span>
                 </button>
               </div>
-
-              <h5 class="recipe-title fw-bold text-dark mt-2">${dish.title}</h5>
-              ${mediaHtml}
-
-              <p class="recipe-desc text-muted small">${dish.desc || ''}</p>
-
-              <div class="d-flex gap-3 text-muted small mb-2">
-                <span>⏱ ${dish.time || '30 хв'}</span>
-                <span>🍽 ${dish.servings || '2 порції'}</span>
-                <span>🔥 ${dish.difficulty || 'Легко'}</span>
-              </div>
-
-              <hr class="my-2 text-muted">
-
-              <div class="d-flex justify-content-between text-muted small pt-1 mb-2">
-                <span class="cursor-pointer" onclick="toggleLikeRecipe(${dish.id})">
-                  <i class="bi ${isLiked ? 'bi-heart-fill text-danger' : 'bi-heart'}"></i> ${dish.likes || 0}
-                </span>
-                <span class="cursor-pointer"><i class="bi bi-chat"></i> ${dish.comments || 0}</span>
-                <span class="${isSaved ? 'text-success' : 'text-danger'} cursor-pointer" onclick="toggleSaveRecipe(${dish.id})">
-                  <i class="bi ${isSaved ? 'bi-bookmark-check-fill' : 'bi-bookmark-fill'}"></i> ${isSaved ? 'Збережено' : 'Зберегти'}
-                </span>
-              </div>
             </div>
 
-            <div class="d-flex justify-content-between align-items-center text-muted small pt-1 mb-2">
-              <a href="recipe-detail.html?id=${dish.id}" class="card-button border-0 w-100 text-center text-decoration-none d-block py-2">Детальніше</a>
-            </div>
           </div>
         </div>
       `;

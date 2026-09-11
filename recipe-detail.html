@@ -80,12 +80,17 @@
 
         <div class="mb-2 text-start">
           <label class="form-label small fw-bold text-dark mb-1">Категорія:</label>
-          <select id="recipeCategory" class="form-select border rounded-3">
+          <select id="recipeCategory" class="form-select border rounded-3 py-2">
             <option value="breakfast">Ранкові страви</option>
             <option value="lunch" selected>Денні страви</option>
             <option value="dinner">Вечірні страви</option>
             <option value="dessert">Десерти</option>
           </select>
+        </div>
+
+        <div class="mb-2 text-start">
+          <label class="form-label small fw-bold text-dark mb-1">Короткий опис страви:</label>
+          <textarea required class="input mt-0" id="recipeDesc" rows="2" placeholder="Розкажіть трохи про смак або особливості страви..."></textarea>
         </div>
 
         <div class="mb-2 text-start">
@@ -98,13 +103,49 @@
           <textarea required class="input mt-0" id="recipeSteps" rows="4" placeholder="1. Зваріть бульйон...&#10;2. Наріжте овочі..."></textarea>
         </div>
 
+        <div class="row">
+          <div class="col-md-6 mb-2 text-start">
+            <label class="form-label small fw-bold text-dark mb-1">Час готування:</label>
+            <select id="recipeTime" class="form-select border rounded-3 py-2">
+              <option value="15 хв" selected>15 хв</option>
+              <option value="30 хв">30 хв</option>
+              <option value="45 хв">45 хв</option>
+              <option value="60 хв">60 хв</option>
+              <option value="90+ хв">90+ хв</option>
+            </select>
+          </div>
+          <div class="col-md-6 mb-2 text-start">
+            <label class="form-label small fw-bold text-dark mb-1">Складність:</label>
+            <select id="recipeDifficulty" class="form-select border rounded-3 py-2">
+              <option value="Легко" selected>Легко</option>
+              <option value="Середньо">Середньо</option>
+              <option value="Складно">Складно</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-2 text-start">
+            <label class="form-label small fw-bold text-dark mb-1">Кількість порцій:</label>
+            <div class="input-group border rounded-3 bg-white" style="height: 38px;">
+              <button class="btn btn-outline-secondary border-0 px-3" type="button" id="modalDecreaseServings">-</button>
+              <input type="number" id="modalServingsCount" class="form-control text-center border-0 bg-transparent fw-bold text-dark shadow-none p-0" value="1" min="1" max="50">
+              <button class="btn btn-outline-secondary border-0 px-3" type="button" id="modalIncreaseServings">+</button>
+            </div>
+          </div>
+          <div class="col-md-6 mb-2 text-start">
+            <label class="form-label small fw-bold text-dark mb-1">Калорійність (на 1 порцію, ккал):</label>
+            <input class="input mt-0" type="text" id="recipeCalories" placeholder="Наприклад: 350 ккал">
+          </div>
+        </div>
+
         <div class="mb-2 text-start">
-          <label class="form-label small fw-bold text-dark mb-1">Фото страви (опціонально):</label>
-          <input class="form-control rounded-3" type="file" id="recipePhoto" accept="image/*">
+          <label class="form-label small fw-bold text-dark mb-1">Фото страви:</label>
+          <input required class="form-control rounded-3" type="file" id="recipePhoto" accept="image/*">
         </div>
 
         <div class="mb-3 text-start">
-          <label class="form-label small fw-bold text-dark mb-1">Відеорецепт (опціонально):</label>
+          <label class="form-label small fw-bold text-dark mb-1">Відеорецепт (необов'язково):</label>
           <input class="form-control rounded-3 mb-2" type="file" id="recipeVideo" accept="video/*">
           <input class="input mt-0" type="url" id="recipeVideoUrl" placeholder="Або вставте посилання на відео">
         </div>

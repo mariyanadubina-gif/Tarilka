@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tarilka — Профіль користувача</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Навігаційна панель -->
+  <nav class="navbar navbar-expand-lg custom-navbar">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">
+        <img src="logo.png" alt="Logo" width="33" height="33" class="d-inline-block align-text-top">Tarilka
+      </a>
+      
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto ms-4">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Головна сторінка</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="catalog.html">Страви</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" id="communityNavBtn">Спільнота</a>
+          </li>
+        </ul>
+
+        <div class="d-flex align-items-center gap-2" id="navAuthContainer">
+          <!-- Заповнюється динамічно з logika.js -->
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Головний вміст профілю -->
+  <div class="container my-5" id="profileContainer">
+    <!-- Динамічно заповнюється через profile.js -->
+  </div>
+
+  <!-- Модальне вікно створення рецепта -->
+  <div id="recipeModal" class="modal-overlay">
+    <div class="container recipe-modal-container">
+      <button id="closeRecipeModal" class="close-btn">&times;</button>
+      <div class="heading text-success">Створити рецепт</div>
+      
+      <form id="recipeForm" class="form mt-3">
+        <div class="mb-2 text-start">
+          <label class="form-label small fw-bold text-dark mb-1">Назва рецепта:</label>
+          <input required class="input mt-0" type="text" id="recipeTitle" placeholder="Наприклад: Борщ український">
+        </div>
+
+        <div class="mb-2 text-start">
+          <label class="form-label small fw-bold text-dark mb-1">Категорія:</label>
+          <select id="recipeCategory" class="form-select border rounded-3 py-2">
+            <option value="breakfast">Ранкові страви</option>
+            <option value="lunch" selected>Денні страви</option>
+            <option value="dinner">Вечірні страви</option>
+            <option value="dessert">Десерти</option>
+          </select>
+        </div>
+
+        <div class="mb-2 text-start">
+            <label class="form-label small fw-bold text-dark mb-1">Короткий опис страви:</label>
+            <textarea required class="input mt-0" id="recipeDesc" rows="2" placeholder="Розкажіть трохи про смак або особливості страви..."></textarea>
+        </div>
+
+        <div class="mb-2 text-start">
+          <label class="form-label small fw-bold text-dark mb-1">Інгредієнти (кожен з нового рядка):</label>
+          <textarea required class="input mt-0" id="recipeIngredients" rows="3" placeholder="М'ясо — 500г&#10;Картопля — 4 шт"></textarea>
+        </div>
+
+        <div class="mb-2 text-start">
+          <label class="form-label small fw-bold text-dark mb-1">Покрокове приготування:</label>
+          <textarea required class="input mt-0" id="recipeSteps" rows="4" placeholder="1. Зваріть бульйон...&#10;2. Наріжте овочі..."></textarea>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-2 text-start">
+            <label class="form-label small fw-bold text-dark mb-1">Час готування:</label>
+            <select id="recipeTime" class="form-select border rounded-3 py-2">
+              <option value="15 хв" selected>15 хв</option>
+              <option value="30 хв">30 хв</option>
+              <option value="45 хв">45 хв</option>
+              <option value="60 хв">60 хв</option>
+              <option value="90+ хв">90+ хв</option>
+            </select>
+          </div>
+          <div class="col-md-6 mb-2 text-start">
+            <label class="form-label small fw-bold text-dark mb-1">Складність:</label>
+            <select id="recipeDifficulty" class="form-select border rounded-3 py-2">
+              <option value="Легко" selected>Легко</option>
+              <option value="Середньо">Середньо</option>
+              <option value="Складно">Складно</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="mb-2 text-start">
+          <label class="form-label small fw-bold text-dark mb-1">Кількість порцій:</label>
+          <div class="input-group border rounded-3 bg-white align-items-center" style="height: 38px;">
+            <button class="btn btn-outline-secondary border-0 px-3" type="button" id="modalDecreaseServings">-</button>
+            <input type="number" id="modalServingsCount" class="form-control text-center border-0 bg-transparent fw-bold text-dark shadow-none p-0" value="1" min="1" max="50">
+            <button class="btn btn-outline-secondary border-0 px-3" type="button" id="modalIncreaseServings">+</button>
+          </div>
+        </div>
+
+        <div class="mb-2 text-start">
+          <label class="form-label small fw-bold text-dark mb-1">Фото страви:</label>
+          <input required class="form-control rounded-3" type="file" id="recipePhoto" accept="image/*">
+        </div>
+
+        <div class="mb-3 text-start">
+          <label class="form-label small fw-bold text-dark mb-1">Відеорецепт (необов'язково):</label>
+          <input class="form-control rounded-3 mb-2" type="file" id="recipeVideo" accept="video/*">
+          <input class="input mt-0" type="url" id="recipeVideoUrl" placeholder="Або вставте посилання на відео">
+        </div>
+
+        <input class="login-button mt-3" type="submit" value="Опублікувати рецепт">
+      </form>
+    </div>
+  </div>
+
+  <script src="db.js"></script>
+  <script src="logika.js"></script>
+  <script src="profile.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Модальне вікно редагування профілю -->
+  <div id="editProfileModal" class="modal-overlay">
+    <div class="container auth-container">
+      <button id="closeEditModal" class="close-btn">&times;</button>
+      <div class="heading text-success">Редагувати профіль</div>
+      
+      <form id="editProfileForm" class="form mt-3">
+        <div class="mb-2 text-start">
+          <label class="form-label small fw-bold text-dark mb-1">Нікнейм:</label>
+          <input required class="input mt-0" type="text" id="editUsername" placeholder="Ваш нікнейм">
+        </div>
+
+        <div class="mb-2 text-start">
+          <label class="form-label small fw-bold text-dark mb-1">Про себе (необов'язково):</label>
+          <textarea class="input mt-0" id="editBio" rows="3" placeholder="Розкажіть трохи про себе та свої кулінарні вподобання..."></textarea>
+        </div>
+
+        <div class="mb-3 text-start">
+          <label class="form-label small fw-bold text-dark mb-1">Змінити аватар (фото):</label>
+          <input class="form-control rounded-3" type="file" id="editAvatarFile" accept="image/*">
+        </div>
+
+        <input class="login-button mt-3" type="submit" value="Зберегти зміни">
+      </form>
+    </div>
+  </div>
+
+  <!-- Модальне вікно редагування рецепта -->
+  <div id="editRecipeModal" class="modal-overlay">
+    <div class="container recipe-modal-container">
+      <button id="closeEditRecipeModal" class="close-btn">&times;</button>
+      <div class="heading text-success">Редагувати рецепт</div>
+      
+      <form id="editRecipeForm" class="form mt-3">
+        <input type="hidden" id="editRecipeId">
+
+        <div class="mb-2 text-start">
+          <label class="form-label small fw-bold text-dark mb-1">Назва рецепта:</label>
+          <input required class="input mt-0" type="text" id="editRecipeTitle" placeholder="Наприклад: Борщ український">
+        </div>
+
+        <div class="mb-2 text-start">
+          <label class="form-label small fw-bold text-dark mb-1">Категорія:</label>
+          <select id="editRecipeCategory" class="form-select border rounded-3 py-2">
+            <option value="breakfast">Ранкові страви</option>
+            <option value="lunch">Денні страви</option>
+            <option value="dinner">Вечірні страви</option>
+            <option value="dessert">Десерти</option>
+          </select>
+        </div>
+
+        <div class="mb-2 text-start">
+            <label class="form-label small fw-bold text-dark mb-1">Короткий опис страви:</label>
+            <textarea required class="input mt-0" id="editRecipeDesc" rows="2" placeholder="Розкажіть трохи про смак або особливості страви..."></textarea>
+        </div>
+
+        <div class="mb-2 text-start">
+          <label class="form-label small fw-bold text-dark mb-1">Інгредієнти (кожен з нового рядка):</label>
+          <textarea required class="input mt-0" id="editRecipeIngredients" rows="3" placeholder="М'ясо — 500г&#10;Картопля — 4 шт"></textarea>
+        </div>
+
+        <div class="mb-2 text-start">
+          <label class="form-label small fw-bold text-dark mb-1">Покрокове приготування:</label>
+          <textarea required class="input mt-0" id="editRecipeSteps" rows="4" placeholder="1. Зваріть бульйон...&#10;2. Наріжте овочі..."></textarea>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-2 text-start">
+            <label class="form-label small fw-bold text-dark mb-1">Час готування:</label>
+            <select id="editRecipeTime" class="form-select border rounded-3 py-2">
+              <option value="15 хв">15 хв</option>
+              <option value="30 хв">30 хв</option>
+              <option value="45 хв">45 хв</option>
+              <option value="60 хв">60 хв</option>
+              <option value="90+ хв">90+ хв</option>
+            </select>
+          </div>
+          <div class="col-md-6 mb-2 text-start">
+            <label class="form-label small fw-bold text-dark mb-1">Складність:</label>
+            <select id="editRecipeDifficulty" class="form-select border rounded-3 py-2">
+              <option value="Легко">Легко</option>
+              <option value="Середньо">Середньо</option>
+              <option value="Складно">Складно</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="mb-2 text-start">
+          <label class="form-label small fw-bold text-dark mb-1">Кількість порцій:</label>
+          <div class="input-group border rounded-3 bg-white align-items-center" style="height: 38px;">
+            <button class="btn btn-outline-secondary border-0 px-3" type="button" id="editModalDecreaseServings">-</button>
+            <input type="number" id="editRecipeServings" class="form-control text-center border-0 bg-transparent fw-bold text-dark shadow-none p-0" value="1" min="1" max="50">
+            <button class="btn btn-outline-secondary border-0 px-3" type="button" id="editModalIncreaseServings">+</button>
+          </div>
+        </div>
+
+        <div class="mb-2 text-start">
+          <label class="form-label small fw-bold text-dark mb-1">Нове фото страви (за бажанням):</label>
+          <input class="form-control rounded-3" type="file" id="editRecipePhoto" accept="image/*">
+        </div>
+
+        <div class="mb-3 text-start">
+          <label class="form-label small fw-bold text-dark mb-1">Відеорецепт (необов'язково):</label>
+          <input class="form-control rounded-3 mb-2" type="file" id="editRecipeVideo" accept="video/*">
+          <input class="input mt-0" type="url" id="editRecipeVideoUrl" placeholder="Або вставте посилання на відео">
+        </div>
+
+        <input class="login-button mt-3" type="submit" value="Зберегти зміни">
+      </form>
+    </div>
+  </div>
+</body>
+</html>
